@@ -1,7 +1,7 @@
 package mabaya.logic;
 
 import mabaya.boundary.CampaignBoundary;
-import mabaya.data.CampaignEntity;
+import mabaya.boundary.CampaignToReturnBoundary;
 import mabaya.data.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ public class AdsServiceImp implements AdsService{
         this.productService = productService;
     }
     @Override
-    public CampaignEntity createCampaign(CampaignBoundary campaign) {
-        return campaignService.createCampaign(campaign);
+    public CampaignToReturnBoundary createCampaign(CampaignBoundary campaignBoundary) {
+        return campaignService.createCampaign(campaignBoundary);
     }
 
     @Override

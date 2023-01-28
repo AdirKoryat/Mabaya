@@ -1,11 +1,13 @@
 package mabaya.logic;
 
 import mabaya.boundary.CampaignBoundary;
-import mabaya.data.CampaignEntity;
+import mabaya.boundary.CampaignToReturnBoundary;
 import mabaya.data.ProductEntity;
 
 public interface CampaignService {
-    CampaignEntity createCampaign(CampaignBoundary campaign);
+    CampaignToReturnBoundary createCampaign(CampaignBoundary campaign);
 
     ProductEntity serveAd(String category);
+
+    void deleteAll();
 }

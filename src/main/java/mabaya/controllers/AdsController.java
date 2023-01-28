@@ -1,7 +1,7 @@
 package mabaya.controllers;
 
 import mabaya.boundary.CampaignBoundary;
-import mabaya.data.CampaignEntity;
+import mabaya.boundary.CampaignToReturnBoundary;
 import mabaya.data.ProductEntity;
 import mabaya.logic.AdsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ public class AdsController {
     }
 
     @RequestMapping(
-            path="/create",
+            path="/createCampaign",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public CampaignEntity createCampaign(@RequestBody CampaignBoundary campaign) {
-        return adsService.createCampaign(campaign);
+    public CampaignToReturnBoundary createCampaign(@RequestBody CampaignBoundary campaignBoundary) {
+        return adsService.createCampaign(campaignBoundary);
     }
 
     @RequestMapping(
