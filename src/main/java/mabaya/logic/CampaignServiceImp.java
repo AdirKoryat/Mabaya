@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -37,7 +38,7 @@ public class CampaignServiceImp implements CampaignService {
 
     @Override
     public ProductEntity serveAd(String category) {
-        return campaignDao.findAll()
+        List<ProductEntity> candidateProducts = campaignDao.findAll()
                 .stream()
                 .filter(CampaignEntity::isActive)
                 .filter(campaignEntity -> campaignEntity.getProducts()
@@ -51,10 +52,19 @@ public class CampaignServiceImp implements CampaignService {
                         .max(Comparator.comparing(CampaignEntity::getBid))
                         .orElseThrow(() ->new NotFoundException(
                                 String.format("No promoted product found that match %s or in any active campaign.", category))))
-                .getProducts()
-                .stream()
-                .findFirst()
-                .orElseThrow(()-> new NotFoundException("No products were found!"));
+                .getProducts();
+
+        if (candidateProducts.stream().anyMatch(productEntity -> productEntity.getCategory().equalsIgnoreCase(category))) {
+            Optional<ProductEntity> productToReturn =  candidateProducts.stream()
+                    .filter(productEntity -> productEntity.getCategory().equalsIgnoreCase(category))
+                    .findFirst();
+            if(productToReturn.isPresent())
+                return productToReturn.get();
+        }
+        if (candidateProducts.isEmpty())
+            throw new NotFoundException("No products were found!");
+
+        return candidateProducts.get(0);
     }
 
     @Override
