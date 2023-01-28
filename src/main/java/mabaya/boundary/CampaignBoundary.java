@@ -1,13 +1,10 @@
 package mabaya.boundary;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 @Builder
-@Getter
-@Setter
+@Data
 public class CampaignBoundary {
     private List<String> productsIdentifiers;
     private String startDate;

@@ -17,11 +17,7 @@ public class AdsController {
         this.adsService = adsService;
     }
 
-    @RequestMapping(
-            path="/createCampaign",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+@PostMapping(path ="/createCampaign" )
     public CampaignToReturnBoundary createCampaign(@RequestBody CampaignBoundary campaignBoundary) {
         return adsService.createCampaign(campaignBoundary);
     }

@@ -1,16 +1,14 @@
 package mabaya.boundary;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import mabaya.data.ProductEntity;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Builder
-@Getter
-@Setter
+@Data
 public class CampaignToReturnBoundary {
     private List<ProductEntity> products;
     private LocalDate startDate;

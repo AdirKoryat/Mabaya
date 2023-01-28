@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdsServiceImp implements AdsService{
     private final CampaignService campaignService;
-    private final ProductService productService;
     @Autowired
-    public AdsServiceImp(CampaignService campaignService, ProductService productService) {
+    public AdsServiceImp(CampaignService campaignService) {
         this.campaignService = campaignService;
-        this.productService = productService;
     }
     @Override
     public CampaignToReturnBoundary createCampaign(CampaignBoundary campaignBoundary) {
