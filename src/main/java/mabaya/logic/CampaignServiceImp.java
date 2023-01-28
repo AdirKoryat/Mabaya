@@ -8,12 +8,14 @@ import mabaya.data.CampaignEntity;
 import mabaya.data.ProductDao;
 import mabaya.data.ProductEntity;
 import mabaya.errors.BadRequestException;
+import mabaya.errors.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -35,8 +37,24 @@ public class CampaignServiceImp implements CampaignService {
 
     @Override
     public ProductEntity serveAd(String category) {
-        //TODO: Implement logic of serve ad method
-        return ProductEntity.builder().build();
+        return campaignDao.findAll()
+                .stream()
+                .filter(CampaignEntity::isActive)
+                .filter(campaignEntity -> campaignEntity.getProducts()
+                        .stream().anyMatch(productEntity -> productEntity
+                                .getCategory()
+                                .equalsIgnoreCase(category)))
+                .max(Comparator.comparing(CampaignEntity::getBid))
+                .orElse(campaignDao.findAll()
+                        .stream()
+                        .filter(CampaignEntity::isActive)
+                        .max(Comparator.comparing(CampaignEntity::getBid))
+                        .orElseThrow(() ->new NotFoundException(
+                                String.format("No promoted product found that match %s or in any active campaign.", category))))
+                .getProducts()
+                .stream()
+                .findFirst()
+                .orElseThrow(()-> new NotFoundException("No products were found!"));
     }
 
     @Override
